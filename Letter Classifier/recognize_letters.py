@@ -13,20 +13,17 @@ def format_image(file_path):
     image = image.resize((28, 28))
     
     pixels = np.array(image) / 255.0
-
     pixels = pixels.T
-    
     ready_image = pixels.reshape(1, 28, 28, 1)
-    
     return ready_image
 
 
-print(">>> Loading the letters model 'letters_model.h5'...")
+print("Loading the letters model 'letters_model.h5'...")
 try:
     neural_network = keras.models.load_model('letters_model.h5')
 except Exception as e:
-    print(f"!!! ERROR: Could not load the file 'letters_model.h5'.")
-    print(f"!!! Error: {e}")
+    print(f"ERROR: Could not load the file 'letters_model.h5'.")
+    print(f"Error: {e}")
     sys.exit()
 
 if len(sys.argv) < 2:
@@ -34,12 +31,12 @@ if len(sys.argv) < 2:
     sys.exit()
 
 test_file = sys.argv[1]
-print(f">>> Processing the image '{test_file}'...")
+print(f"Processing the image '{test_file}'...")
 
 try:
     formatted_image = format_image(test_file)
 except FileNotFoundError:
-    print(f"!!! ERROR: The file '{test_file}' was not found.")
+    print(f"ERROR: The file '{test_file}' was not found.")
     sys.exit()
 
 raw_prediction = neural_network.predict(formatted_image)
